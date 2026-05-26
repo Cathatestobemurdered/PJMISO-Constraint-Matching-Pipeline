@@ -27,8 +27,3 @@ Read the map as a high-recall candidate set, then apply trading judgment in the 
 
 The single highest-leverage improvement is the loss-of voltage parsing, because it sits directly on the backbone events that drive congestion P&L. Everything else, a two-sided reconciliation to confirm the crosswalk, a stronger contingency signal on base-case rows, is incremental by comparison.
 
-## Output and reproduction
-
-The CSV leads with the three required columns, `market_constraint`, `dayzer_constraint`, and `pano_constraint`, followed by per-source score, confidence, status, and ID fields, the Panorama last-seen date and staleness flag, and an overall confidence taken as the weaker of the two matches so a three-way link is never over-claimed. Status is labeled matched, review, or unmatched, and the proposed name is always retained even on weak matches so a reviewer can judge what was suggested.
-
-Running `python pipeline.py` regenerates the CSV in about a minute. The matcher uses rapidfuzz when installed and otherwise falls back to a pure-Python scorer that reproduces the same scores, so results are identical in either environment, and the notebook imports the same module so the script and the notebook cannot drift apart.
