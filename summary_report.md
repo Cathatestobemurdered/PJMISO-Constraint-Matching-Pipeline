@@ -1,20 +1,6 @@
 # Constraint Mapping Across Market, Dayzer, and Panorama
 ### Summary Report — Yingyun Zhan
 
-## Executive summary
-
-A trading desk that cannot reconcile constraint names across vendors cannot see its true congestion exposure. This work builds that reconciliation layer, anchored on the 5,230 Market constraints and matched against Dayzer (13,813 records) and Panorama (21,963 records).
-
-The headline result is that 95.5% of Market constraints can be located in both other sources at a usable confidence, and 65% land a clean, high-confidence match in all three. Only 27 constraints (half a percent) cannot be placed in either vendor. For a desk, that means near-complete coverage today, with a short, well-characterized list of exceptions to resolve by hand.
-
-The more useful finding is not the headline number but where the matching breaks down, because the failures are concentrated and they tell a clear operational story rather than a random one. The work below explains that story and what it implies for how the map should be used and improved.
-
-## How the matching works, briefly
-
-Each vendor describes a constraint as a facility paired with a contingency, but the three encode that pair differently: Market and Panorama keep the two fields separate, while Dayzer packs both into a single name string that we split on the first colon. We standardize all three onto a common shape, normalize the text so formatting differences stop masquerading as real differences (case, voltage notation, punctuation, boilerplate words like LINE and TRANSFORMER), and then score the facility and the contingency separately, weighting the facility at 0.65 because the monitored element is the more stable half of a constraint's identity.
-
-Rather than compare every Market row against every vendor row, which would run to tens of millions of comparisons, we index candidates by their distinctive facility tokens and only score the ones that share a token. That keeps the run under a minute and, as a side benefit, stops the matcher from wasting effort on pairs that have nothing in common. The full method and code sit in the notebook and in `pipeline.py`.
-
 ## What the map tells a power trader
 
 The governing conclusion is this: the map is most reliable exactly where it matters least for trading, and least reliable exactly where it matters most. Coverage looks excellent in aggregate, but the constraints that drive forward congestion value are concentrated in the part of the map that needs the most care. Four findings support that, and each carries a direct implication for how to trade on this data.
